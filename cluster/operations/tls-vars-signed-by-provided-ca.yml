@@ -1,0 +1,8 @@
+- type: replace
+  path: /variables/-
+  value:
+    name: atc_tls
+    type: certificate
+    options:
+      ca: ((custom_ca))
+      alternative_names: ["*.((concourse_domain))"]
