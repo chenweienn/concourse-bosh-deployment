@@ -1,0 +1,65 @@
+## expose concourse's web/credhub/uaa via cf gorouter
+# concourse_domain should be resolved to the LB VIP in front of TAS gorouters
+# concourse.TAS_SYS_DOMAIN is a good choice for concourse_domain
+# "bosh releaes | grep routing" for routing_release_version
+# "bosh deployments | grep cf-" for cf_deployment_name
+
+# release
+- path: /releases/-
+  type: replace
+  value:
+    name: routing
+    version: ((routing_release_version))
+
+# add route_registrar job to web instance group
+- path: /instance_groups/name=web/jobs/-
+  type: replace
+  value:
+    name: route_registrar
+    release: routing
+    consumes:
+      nats:
+        deployment: ((cf_deployment_name))
+        from: nats
+    properties:
+      route_registrar:
+        routes:
+        - name: concourse-ui
+          registration_interval: 20s
+          server_cert_domain_san: ui.((concourse_domain))
+          tls_port: 443
+          uris:
+          - ui.((concourse_domain))
+        - name: concourse-credhub
+          registration_interval: 20s
+          server_cert_domain_san: credhub.((concourse_domain))
+          tls_port: 8844
+          uris:
+          - credhub.((concourse_domain))
+        - name: concourse-uaa
+          registration_interval: 20s
+          server_cert_domain_san: uaa.((concourse_domain))
+          tls_port: 8443
+          uris:
+          - uaa.((concourse_domain))
+        routing_api:
+          skip_ssl_validation: false 
+
+# update credhub url
+- path: /instance_groups/name=web/jobs/name=web/properties/credhub/url
+  type: replace
+  value: https://credhub.((concourse_domain))
+
+# update ui url
+- path: /instance_groups/name=web/jobs/name=web/properties/external_url
+  type: replace
+  value: https://ui.((concourse_domain))
+
+# update uaa url
+- path: /instance_groups/name=web/jobs/name=uaa/properties/uaa/url
+  type: replace
+  value: https://uaa.((concourse_domain))
+    
+- path: /instance_groups/name=web/jobs/name=credhub/properties/credhub/authentication/uaa/url
+  type: replace
+  value: https://uaa.((concourse_domain))
