@@ -86,9 +86,6 @@ variables:
   type: ssh
 
 stemcells:
-- alias: bionic
-  os: ubuntu-bionic
-  version: latest
 
 update:
   canaries: 1
