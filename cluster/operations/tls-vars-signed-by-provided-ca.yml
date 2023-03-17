@@ -6,3 +6,4 @@
     options:
       ca: ((custom_ca))
       alternative_names: ["*.((concourse_domain))"]
+      organization: atcOrg
