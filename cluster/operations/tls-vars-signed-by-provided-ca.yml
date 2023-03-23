@@ -5,5 +5,8 @@
     type: certificate
     options:
       ca: ((custom_ca))
-      alternative_names: ["*.((concourse_domain))"]
+      alternative_names:
+      - concourse.((cf_sys_domain))
+      - concourse-credhub.((cf_sys_domain))
+      - concourse-uaa.((cf_sys_domain))
       organization: atcOrg
