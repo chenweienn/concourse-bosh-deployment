@@ -19,7 +19,7 @@
     release: routing
     consumes:
       nats:
-        deployment: ((tas_deployment_name))
+        deployment: ((cf_deployment_name))
         from: nats
     properties:
       route_registrar:
