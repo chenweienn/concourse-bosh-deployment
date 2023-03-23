@@ -85,7 +85,6 @@ variables:
 - name: worker_key
   type: ssh
 
-stemcells:
 
 update:
   canaries: 1
