@@ -11,7 +11,7 @@
   value: ((stemcell_alias))
 
 - type: replace
-  path: /stemcells/-
+  path: /stemcells?/-
   value:
     alias: ((stemcell_alias))
     os: ((stemcell_os))
