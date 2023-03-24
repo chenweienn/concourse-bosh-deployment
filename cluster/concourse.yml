@@ -86,9 +86,6 @@ variables:
   type: ssh
 
 stemcells:
-- alias: xenial
-  os: ubuntu-xenial
-  version: latest
 
 update:
   canaries: 1

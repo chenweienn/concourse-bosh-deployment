@@ -15,4 +15,4 @@
   value:
     alias: ((stemcell_alias))
     os: ((stemcell_os))
-    version: latest
+    version: ((stemcell_version))
