@@ -6,7 +6,7 @@
     options:
       ca: ((custom_ca))
       alternative_names:
-      - concourse.((tas_sys_domain))
-      - concourse-credhub.((tas_sys_domain))
-      - concourse-uaa.((tas_sys_domain))
+      - ((deployment_name)).((tas_sys_domain))
+      - ((deployment_name))-credhub.((tas_sys_domain))
+      - ((deployment_name))-uaa.((tas_sys_domain))
       organization: atcOrg
