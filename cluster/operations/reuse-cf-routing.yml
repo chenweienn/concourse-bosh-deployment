@@ -24,42 +24,42 @@
     properties:
       route_registrar:
         routes:
-        - name: concourse-ui
+        - name: ((deployment_name))-ui
           registration_interval: 20s
-          server_cert_domain_san: concourse.((tas_sys_domain))
+          server_cert_domain_san: ((deployment_name)).((tas_sys_domain))
           tls_port: 443
           uris:
-          - concourse.((tas_sys_domain))
-        - name: concourse-credhub
+          - ((deployment_name)).((tas_sys_domain))
+        - name: ((deployment_name))-credhub
           registration_interval: 20s
-          server_cert_domain_san: concourse-credhub.((tas_sys_domain))
+          server_cert_domain_san: ((deployment_name))-credhub.((tas_sys_domain))
           tls_port: 8844
           uris:
-          - concourse-credhub.((tas_sys_domain))
-        - name: concourse-uaa
+          - ((deployment_name))-credhub.((tas_sys_domain))
+        - name: ((deployment_name))-uaa
           registration_interval: 20s
-          server_cert_domain_san: concourse-uaa.((tas_sys_domain))
+          server_cert_domain_san: ((deployment_name))-uaa.((tas_sys_domain))
           tls_port: 8443
           uris:
-          - concourse-uaa.((tas_sys_domain))
+          - ((deployment_name))-uaa.((tas_sys_domain))
         routing_api:
           skip_ssl_validation: false 
 
 # update credhub url
 - path: /instance_groups/name=web/jobs/name=web/properties/credhub/url
   type: replace
-  value: https://concourse-credhub.((tas_sys_domain))
+  value: https://((deployment_name))-credhub.((tas_sys_domain))
 
 # update ui url
 - path: /instance_groups/name=web/jobs/name=web/properties/external_url
   type: replace
-  value: https://concourse.((tas_sys_domain))
+  value: https://((deployment_name)).((tas_sys_domain))
 
 # update uaa url
 - path: /instance_groups/name=web/jobs/name=uaa/properties/uaa/url
   type: replace
-  value: https://concourse-uaa.((tas_sys_domain))
+  value: https://((deployment_name))-uaa.((tas_sys_domain))
     
 - path: /instance_groups/name=web/jobs/name=credhub/properties/credhub/authentication/uaa/url
   type: replace
-  value: https://concourse-uaa.((tas_sys_domain))
+  value: https://((deployment_name))-uaa.((tas_sys_domain))
